@@ -1,0 +1,23 @@
+# Maven
+application/target/
+*.class
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Logs
+*.log
+
+# Secrets
+*.pem
+*.key
+.env
+
+# Jenkins
+jenkins_home/
+
+# OS files
+.DS_Store
+Thumbs.db

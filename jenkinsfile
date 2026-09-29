@@ -1,0 +1,45 @@
+pipeline{
+    agent any
+    stages{
+        stage('checkout-code'){
+            steps{
+                git branch: 'main', url: 'https://github.com/kundurthiravikiran2/Jenkins--devops.git'
+            }
+        }
+        stage('compile-project'){
+            steps{
+                dir('application'){
+                sh 'mvn compile'
+                }
+            }
+        }
+        stage('test-project'){
+            steps{
+                dir('application'){
+                sh 'mvn test'
+                }
+            }
+        }
+        stage('package-code'){
+            steps{
+                dir('application'){
+                sh 'mvn clean package'
+                }
+            }
+        }
+        stage('deployment process'){
+            steps{
+                dir('application'){
+                 ansiblePlaybook(
+                     credentialsId: 'ans',
+                     disableHostKeyChecking: true, 
+                     installation: 'ansible',
+                     inventory: '/etc/ansible/hosts',
+                     playbook: '/etc/ansible/deployment.yml', 
+                     vaultTmpPath: ''
+                     )
+                }
+            }
+        }
+    }
+}
